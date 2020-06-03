@@ -39,6 +39,7 @@ import androidx.appcompat.widget.SearchView;
 
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity
 
     //位置欺骗相关
     //  latLngInfo  经度&纬度
-    public static String latLngInfo = "104.06121778639009&30.544111926165282";
+    public static String latLngInfo = "120.06121778639009&36.544111926165282";
     private boolean isMockLocOpen = false;
     private MockGpsService mockGpsService;
     private MockServiceReceiver mockServiceReceiver = null;
@@ -166,12 +167,12 @@ public class MainActivity extends AppCompatActivity
     private double mCurrentLat = 0.0;
     private double mCurrentLon = 0.0;
     private float mCurrentAccracy;
-    private String mCurrentCity = "成都市";
+    private String mCurrentCity = "青岛市";
     private String mCurrentAddr;
     /**
      * 当前地点击点
      */
-    public static LatLng currentPt = new LatLng(30.547743718042415, 104.07018449827267);
+    public static LatLng currentPt = new LatLng(36.135981, 120.422704);
     public static BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_gcoding);
 
@@ -542,8 +543,8 @@ public class MainActivity extends AppCompatActivity
     private void randomFix() {
         double ra1 = Math.random() * 2.0 - 1.0;
         double ra2 = Math.random() * 2.0 - 1.0;
-        double randLng = 104.07018449827267 + ra1 / 2000.0;
-        double randLat = 30.547743718042415 + ra2 / 2000.0;
+        double randLng = 120.422704 ;
+        double randLat = 36.135981 ;
         currentPt = new LatLng(randLat, randLng);
         transformCoordinate(Double.toString(randLng), Double.toString(randLat));
     }
@@ -1433,6 +1434,7 @@ public class MainActivity extends AppCompatActivity
         locHistoryDB.close();
         searchHistoryDB.close();
         super.onDestroy();
+        unregisterReceiver(mockServiceReceiver);
     }
 
     public void DisplayToast(String str) {
@@ -1713,17 +1715,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_bug_report) {
             //选择日志文件并上传
-            DisplayToast("代码没写完");
+            DisplayToast("完美的代码没毛病");
 
         } else if (id == R.id.nav_send) {
-            Intent i = new Intent(Intent.ACTION_SEND);
-            // i.setType("text/plain"); //模拟器请使用这行
-            i.setType("message/rfc822"); // 真机上使用这行
-            i.putExtra(Intent.EXTRA_EMAIL,
-                    new String[]{"hilavergil@gmail.com"});
-            i.putExtra(Intent.EXTRA_SUBJECT, "SUGGESTION");
-            startActivity(Intent.createChooser(i,
-                    "Select email application."));
+            Toast.makeText(getApplicationContext(),"我信你个鬼",Toast.LENGTH_LONG).show();
 
         }
 
@@ -2045,4 +2040,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            System.out.println("按下了back键   onKeyDown()");
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+
+
+    }
 }

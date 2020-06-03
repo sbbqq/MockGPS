@@ -32,7 +32,7 @@
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="与我联系" />
+                android:title="打赏俺一下呗" />
         </menu>
     </item>
 
